@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LabAudit — Laboratory Audit Readiness Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0a1628;--navy2:#0f2040;--navy3:#162952;
+  --blue:#1a56db;--blue2:#1e40af;
+  --accent:#00c6a2;--accent2:#00a88a;
+  --gold:#e8b84b;--white:#ffffff;
+  --gray1:#f8f9fc;--gray2:#e8ecf4;--gray3:#9aa3b8;--text:#1a2035;
+}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo .icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-logo span{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--white);letter-spacing:-0.02em}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--accent);color:var(--navy)!important;padding:0.5rem 1.25rem;border-radius:6px;font-weight:600!important;font-size:0.875rem;text-decoration:none;transition:background 0.2s!important}
+.nav-cta:hover{background:var(--accent2)!important}
+.hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;padding:120px 2rem 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,198,162,0.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(26,86,219,0.1) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,198,162,0.1);border:1px solid rgba(0,198,162,0.25);color:var(--accent);padding:6px 14px;border-radius:100px;font-size:0.78rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block}
+h1{font-family:'DM Serif Display',serif;font-size:3.5rem;line-height:1.1;letter-spacing:-0.03em;color:var(--white);margin-bottom:1.5rem}
+h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.1rem;line-height:1.7;color:rgba(255,255,255,0.6);margin-bottom:2.5rem;font-weight:300}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:var(--navy);padding:0.875rem 2rem;border-radius:8px;font-weight:600;font-size:0.95rem;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-secondary{color:rgba(255,255,255,0.7);font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color 0.2s}
+.btn-secondary:hover{color:var(--white)}
+.hero-trust{margin-top:2rem;display:flex;align-items:center;gap:1rem}
+.trust-avatars{display:flex}
+.trust-avatars span{width:32px;height:32px;border-radius:50%;background:var(--navy3);border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--accent);margin-left:-8px}
+.trust-avatars span:first-child{margin-left:0}
+.trust-text{font-size:0.82rem;color:rgba(255,255,255,0.45)}
+.trust-text strong{color:rgba(255,255,255,0.8)}
+.score-widget{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2rem;backdrop-filter:blur(10px)}
+.score-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.score-label{font-size:0.78rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-weight:500}
+.score-status{background:rgba(0,198,162,0.15);color:var(--accent);font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:0.06em}
+.score-big{font-family:'DM Serif Display',serif;font-size:5rem;color:var(--accent);line-height:1;margin-bottom:0.25rem}
+.score-desc{font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:1.75rem}
+.score-bar-bg{height:8px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden;margin-bottom:1.5rem}
+.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:100px;width:78%}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pillar{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px}
+.pillar-name{font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:500}
+.pillar-score{font-size:1.1rem;font-weight:600}
+.p-green{color:var(--accent)}.p-yellow{color:var(--gold)}.p-red{color:#f87171}
+.pillar-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:100px;margin-top:6px;overflow:hidden}
+.pillar-fill{height:100%;border-radius:100px}
+.pf-green{background:var(--accent)}.pf-yellow{background:var(--gold)}.pf-red{background:#f87171}
+.section{padding:6rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.75rem}
+h2{font-family:'DM Serif Display',serif;font-size:2.5rem;line-height:1.15;letter-spacing:-0.02em;color:var(--navy);margin-bottom:1rem}
+.section-sub{font-size:1.05rem;color:var(--gray3);line-height:1.7;max-width:560px;font-weight:300}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.feature-card{border:1px solid var(--gray2);border-radius:16px;padding:1.75rem;transition:all 0.25s;background:var(--white)}
+.feature-card:hover{border-color:#c7d2fe;box-shadow:0 8px 32px rgba(26,86,219,0.08);transform:translateY(-2px)}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1.1rem}
+.fi-teal{background:#e6fdf7}.fi-blue{background:#eff6ff}.fi-amber{background:#fffbeb}
+.fi-purple{background:#f5f3ff}.fi-red{background:#fff1f2}.fi-green{background:#f0fdf4}
+.feature-card h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem}
+.feature-card p{font-size:0.875rem;color:var(--gray3);line-height:1.65}
+.how-it-works{background:var(--gray1)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;background:var(--gray2);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--white);border:2px solid var(--gray2);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy);margin:0 auto 1.25rem}
+.step:nth-child(4) .step-num{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.step h4{font-size:0.95rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem}
+.step p{font-size:0.82rem;color:var(--gray3);line-height:1.6}
+.compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3.5rem}
+.compliance-list{list-style:none}
+.compliance-list li{display:flex;align-items:flex-start;gap:12px;padding:1rem 0;border-bottom:1px solid var(--gray2)}
+.compliance-list li:last-child{border-bottom:none}
+.check{width:22px;height:22px;border-radius:50%;background:#e6fdf7;display:flex;align-items:center;justify-content:center;color:var(--accent2);font-size:0.75rem;flex-shrink:0;margin-top:2px}
+.compliance-list strong{font-size:0.92rem;color:var(--navy);display:block;margin-bottom:2px}
+.compliance-list span{font-size:0.82rem;color:var(--gray3)}
+.audit-panel{background:var(--navy);border-radius:20px;padding:2rem}
+.audit-row{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.audit-row:last-child{border-bottom:none}
+.audit-dept{font-size:0.85rem;color:rgba(255,255,255,0.7)}
+.audit-badge{font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:100px}
+.ab-green{background:rgba(0,198,162,0.15);color:var(--accent)}
+.ab-yellow{background:rgba(232,184,75,0.15);color:var(--gold)}
+.ab-red{background:rgba(248,113,113,0.15);color:#f87171}
+.audit-panel-title{font-size:0.72rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.25rem}
+.pricing{background:var(--gray1)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;align-items:start}
+.price-card{background:var(--white);border:1px solid var(--gray2);border-radius:16px;padding:2rem}
+.price-card.featured{background:var(--navy);border-color:var(--navy);position:relative;transform:scale(1.02)}
+.featured-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--navy);font-size:0.72rem;font-weight:700;padding:4px 14px;border-radius:100px;white-space:nowrap;letter-spacing:0.04em;text-transform:uppercase}
+.price-plan{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray3);margin-bottom:0.75rem}
+.price-amount{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--navy);line-height:1}
+.price-amount span{font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:400;color:var(--gray3)}
+.price-desc{font-size:0.82rem;color:var(--gray3);margin:0.75rem 0 1.5rem;line-height:1.6}
+.price-features{list-style:none;margin-bottom:2rem}
+.price-features li{font-size:0.85rem;color:var(--text);padding:5px 0;display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.9rem}
+.price-card.featured .price-plan{color:var(--accent)}
+.price-card.featured .price-amount{color:var(--white)}
+.price-card.featured .price-amount span{color:rgba(255,255,255,0.4)}
+.price-card.featured .price-desc{color:rgba(255,255,255,0.5)}
+.price-card.featured .price-features li{color:rgba(255,255,255,0.8)}
+.btn-plan{display:block;text-align:center;padding:0.8rem;border-radius:8px;font-weight:600;font-size:0.9rem;text-decoration:none;transition:all 0.2s}
+.btn-plan-outline{border:1.5px solid var(--gray2);color:var(--navy)}
+.btn-plan-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-plan-solid{background:var(--accent);color:var(--navy)}
+.btn-plan-solid:hover{background:var(--accent2)}
+.cta-section{background:var(--navy);padding:7rem 2rem;text-align:center}
+.cta-section h2{color:var(--white);max-width:600px;margin:0 auto 1rem;font-size:3rem}
+.cta-section p{color:rgba(255,255,255,0.55);max-width:450px;margin:0 auto 2.5rem;font-size:1rem;line-height:1.7}
+.cta-actions{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+footer{background:#060e1d;padding:3rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:1.1rem;color:rgba(255,255,255,0.5)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:0.8rem;color:rgba(255,255,255,0.3);text-decoration:none}
+.footer-links a:hover{color:rgba(255,255,255,0.6)}
+.footer-copy{font-size:0.78rem;color:rgba(255,255,255,0.2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{animation:fadeUp 0.6s ease forwards;opacity:0}
+.hero-content>*:nth-child(1){animation-delay:0.1s}
+.hero-content>*:nth-child(2){animation-delay:0.2s}
+.hero-content>*:nth-child(3){animation-delay:0.3s}
+.hero-content>*:nth-child(4){animation-delay:0.4s}
+.hero-content>*:nth-child(5){animation-delay:0.5s}
+.score-widget{animation:fadeUp 0.7s 0.3s ease forwards;opacity:0}
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .compliance-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  h1{font-size:2.5rem}
+  .nav-links a:not(.nav-cta){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="icon">🔬</div>
+    <span>LabAudit</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://labaudit-v33.streamlit.app" target="_blank" class="nav-cta">Try Free Demo →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">Audit Readiness Platform</div>
+      <h1>Know your lab's audit readiness in <em>30 seconds</em></h1>
+      <p class="hero-sub">LabAudit gives Quality Managers and Compliance Officers a real-time compliance score across documents, calibrations, training, and CAPA — before the auditor walks in.</p>
+      <div class="hero-actions">
+        <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-primary">Start Free Trial →</a>
+        <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-secondary">View live demo ↗</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-avatars">
+          <span>QM</span><span>LA</span><span>CO</span><span>LM</span>
+        </div>
+        <p class="trust-text">Built for <strong>Quality Managers, Lab Directors</strong> and <strong>Compliance Officers</strong></p>
+      </div>
+    </div>
+    <div class="score-widget">
+      <div class="score-header">
+        <span class="score-label">Audit Readiness Score</span>
+        <span class="score-status">Live</span>
+      </div>
+      <div class="score-big">78%</div>
+      <div class="score-desc">Minor gaps detected — 3 items need attention</div>
+      <div class="score-bar-bg">
+        <div class="score-bar-fill"></div>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-name">📁 Documents</div>
+          <div class="pillar-score p-yellow">71%</div>
+          <div class="pillar-bar"><div class="pillar-fill pf-yellow" style="width:71%"></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-name">⚙️ Calibrations</div>
+          <div class="pillar-score p-green">91%</div>
+          <div class="pillar-bar"><div class="pillar-fill pf-green" style="width:91%"></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-name">🎓 Training</div>
+          <div class="pillar-score p-yellow">74%</div>
+          <div class="pillar-bar"><div class="pillar-fill pf-yellow" style="width:74%"></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-name">🔧 CAPA</div>
+          <div class="pillar-score p-red">61%</div>
+          <div class="pillar-bar"><div class="pillar-fill pf-red" style="width:61%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-tag">Features</div>
+    <h2>Everything your lab needs to stay audit-ready</h2>
+    <p class="section-sub">One platform to track all four pillars of laboratory compliance — so nothing falls through the cracks.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-teal">📊</div>
+        <h3>Real-Time Readiness Score</h3>
+        <p>A weighted 0–100% score calculated across documents, calibrations, training, and CAPA. Know your status at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">📁</div>
+        <h3>Document Management</h3>
+        <p>Upload SOPs, policies, and certificates. Track versions, set expiry dates, and receive automatic renewal reminders.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-amber">⚙️</div>
+        <h3>Calibration Tracking</h3>
+        <p>Monitor calibration schedules for all critical equipment. Never miss a due date with automatic status updates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">🎓</div>
+        <h3>Training Records</h3>
+        <p>Track staff competency and training renewals. Instantly see who is qualified and whose certification has lapsed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-red">🔧</div>
+        <h3>CAPA Management</h3>
+        <p>Raise, assign, and close corrective and preventive actions. Full audit trail from root cause to verification.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">✅</div>
+        <h3>Audit View</h3>
+        <p>A department-by-department compliance map with Green, Yellow, and Red indicators — ready to show any auditor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section how-it-works" id="how">
+  <div class="section-inner">
+    <div class="section-tag">How It Works</div>
+    <h2>Up and running in minutes</h2>
+    <p class="section-sub">No lengthy onboarding. No complex configuration. Your team is productive from day one.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Create your workspace</h4>
+        <p>Set up your lab organisation and invite your team with role-based access.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Upload your records</h4>
+        <p>Import existing SOPs, calibration certs, training records, and open CAPAs.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Get your score</h4>
+        <p>Instantly see your Audit Readiness Score and exactly what needs attention.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Stay audit-ready</h4>
+        <p>Automated reminders keep your team ahead of every expiry and deadline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-tag">Compliance Coverage</div>
+    <h2>Built for regulated laboratories</h2>
+    <div class="compliance-grid">
+      <ul class="compliance-list">
+        <li>
+          <div class="check">✓</div>
+          <div><strong>ISO/IEC 17025:2017</strong><span>Testing and calibration laboratories — the gold standard for lab accreditation worldwide.</span></div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div><strong>ISO 9001:2015</strong><span>Quality management systems applicable across all laboratory types and sectors.</span></div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div><strong>GMP / GLP</strong><span>Good Manufacturing Practice and Good Laboratory Practice for pharmaceutical and biotech labs.</span></div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div><strong>HACCP</strong><span>Hazard Analysis for food testing and food safety laboratories.</span></div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div><strong>ISO 14001 / OSHA</strong><span>Environmental management and occupational health & safety compliance tracking.</span></div>
+        </li>
+      </ul>
+      <div class="audit-panel">
+        <div class="audit-panel-title">Audit View — Department Status</div>
+        <div class="audit-row"><span class="audit-dept">Microbiology</span><span class="audit-badge ab-green">✓ Compliant</span></div>
+        <div class="audit-row"><span class="audit-dept">Chemistry</span><span class="audit-badge ab-yellow">⚠ Minor Gap</span></div>
+        <div class="audit-row"><span class="audit-dept">Quality Assurance</span><span class="audit-badge ab-green">✓ Compliant</span></div>
+        <div class="audit-row"><span class="audit-dept">Equipment & Metrology</span><span class="audit-badge ab-yellow">⚠ Due Soon</span></div>
+        <div class="audit-row"><span class="audit-dept">Management</span><span class="audit-badge ab-red">✗ Action Required</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-tag">Pricing</div>
+    <h2>Simple, transparent pricing</h2>
+    <p class="section-sub">Start free. Scale when you're ready. No hidden fees.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-plan">Starter</div>
+        <div class="price-amount">Free<span> forever</span></div>
+        <p class="price-desc">Perfect for small labs exploring digital compliance management.</p>
+        <ul class="price-features">
+          <li>Up to 3 users</li>
+          <li>50 documents</li>
+          <li>Basic audit score</li>
+          <li>Email reminders</li>
+        </ul>
+        <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-plan btn-plan-outline">Get started free</a>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="price-plan">Professional</div>
+        <div class="price-amount">RM 299<span> /month</span></div>
+        <p class="price-desc">For growing labs that need full compliance visibility and team collaboration.</p>
+        <ul class="price-features">
+          <li>Up to 20 users</li>
+          <li>Unlimited documents</li>
+          <li>Full audit readiness score</li>
+          <li>CAPA management</li>
+          <li>Audit trail & reports</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-plan btn-plan-solid">Start 14-day trial</a>
+      </div>
+      <div class="price-card">
+        <div class="price-plan">Enterprise</div>
+        <div class="price-amount">Custom</div>
+        <p class="price-desc">For multi-site laboratory networks requiring advanced controls.</p>
+        <ul class="price-features">
+          <li>Unlimited users</li>
+          <li>Multi-site support</li>
+          <li>SSO / Active Directory</li>
+          <li>Custom compliance modules</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <a href="mailto:hello@labaudit.io" class="btn-plan btn-plan-outline">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Your next audit starts today</h2>
+  <p>Join laboratory teams who use LabAudit to stay permanently audit-ready — not just when the auditor calls.</p>
+  <div class="cta-actions">
+    <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-primary" style="font-size:1rem;padding:1rem 2.25rem">Start Free Trial →</a>
+    <a href="https://labaudit-v33.streamlit.app" target="_blank" class="btn-secondary" style="color:rgba(255,255,255,0.6)">View live demo ↗</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">🔬 LabAudit</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="mailto:hello@labaudit.io">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 LabAudit. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
